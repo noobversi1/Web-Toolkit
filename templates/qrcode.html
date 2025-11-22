@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Buat Kode QR | Web Toolkit{% endblock %}
+
+{% block content %}
+    <div x-data="qrGenerator()" class="w-full max-w-xl">
+
+        <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-10" style="position: relative; z-index: 10;">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-blue-700 mb-2">⛶ Buat Kode QR</h1>
+                <div class="bg-gray-100 text-blue-500 border border-yellow-300 rounded-lg p-3 mt-4 text-sm">
+                    💡 <strong>Info</strong>: Kode QR dibuat di sisi browser Anda, tidak ada data yang dikirim ke server.
+                </div>
+            </div>
+
+            <div class="grid gap-4">
+                <input
+                    type="text"
+                    id="dataInput"
+                    placeholder="Masukkan URL atau Teks di sini..."
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                    x-model="dataInput" 
+                    @keydown.enter="generate()"
+                />
+                <button
+                    id="generateQrButton" 
+                    class="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg transition duration-200 
+                        hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5"
+                    @click="generate()"
+                    >
+                    ⛶ Buat Kode QR
+                </button>
+            </div>
+        </div>
+        
+        <div 
+            id="qrModal" 
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+            x-show="modalOpen"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            style="display: none;" 
+            >
+            
+            <div 
+                class="bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full text-center relative"
+                @click.away="modalOpen = false"
+                x-show="modalOpen"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 scale-95"
+                x-transition:enter-end="opacity-100 scale-100"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 scale-100"
+                x-transition:leave-end="opacity-0 scale-95"
+                >
+                
+                <button @click="modalOpen = false" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-3xl font-light">&times;</button>
+                
+                <h2 class="text-lg font-semibold text-gray-700 mb-4">📷 Preview Kode QR</h2>
+                
+                <div id="modalQRCode" class="flex justify-center items-center p-4 bg-white rounded-lg shadow-inner">
+                    </div>
+                
+                <div class="mt-4">
+                    <button @click="download()" class="py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                        ⬇️ Unduh Kode QR (PNG)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div> {% endblock %}
+
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/libs/qrcode.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/qr-generator.js') }}"></script>
+{% endblock %}

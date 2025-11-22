@@ -1,0 +1,132 @@
+// static/js/pdftodocx.js
+
+document.addEventListener('alpine:init', () => {
+    Alpine.data('pdfToDocxComponent', (uploadUrl) => ({
+        // --- STATE (Data) ---
+        file: null,
+        statusText: 'Pilih file PDF untuk memulai konversi.', // Teks diubah
+        isDragOver: false,
+        isDone: false,
+        uploadUrl: uploadUrl,
+        // Hapus 'compressionLevel'
+        
+        // State Hasil
+        showResultArea: false,
+        successMessage: '',
+        downloadUrl: '',
+        downloadFileName: 'konversi.docx', // Ekstensi diubah
+
+        // --- HELPER: Mengambil nama file dari header (Opsional, tapi bagus) ---
+        _getDownloadName(response) {
+            const contentDisposition = response.headers.get("content-disposition");
+            // Ganti default name
+            let defaultName = "konversi_pdf_web_toolkit.docx"; 
+            
+            if (contentDisposition) {
+                const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+                if (filenameMatch && filenameMatch[1]) {
+                    defaultName = filenameMatch[1];
+                }
+            }
+            return defaultName;
+        },
+        
+        // --- HELPER: Validasi file (Pola dari compresspdf.js) ---
+        _updateFile(file) {
+            // 1. Reset jika tidak ada file
+            if (!file) {
+                this.file = null;
+                this.statusText = 'Pilih file PDF untuk memulai konversi.'; // Teks diubah
+                this.isDone = false;
+                this.showResultArea = false;
+                return;
+            }
+
+            // 2. Validasi Tipe File
+            if (file.type !== 'application/pdf') {
+                 alertUser('Format file tidak didukung. Harap pilih file .pdf');
+                 this.file = null; this.statusText = 'Format file tidak valid.'; this.isDone = false;
+                 return;
+            }
+
+            // 3. Validasi Ukuran File (Menggunakan global app.js)
+            if (typeof validateFileSize === 'function' && !validateFileSize(file)) {
+                this.file = null; this.statusText = 'File terlalu besar.'; this.isDone = false;
+                return; 
+            }
+
+            // 4. Jika lolos, set state
+            this.file = file;
+            const fileSize = (file.size / 1024 / 1024).toFixed(2);
+            this.statusText = `File: ${file.name} (${fileSize} MB). Siap dikonversi.`; // Teks diubah
+            this.isDone = false;
+            this.showResultArea = false;
+            if (this.downloadUrl) URL.revokeObjectURL(this.downloadUrl);
+            this.downloadUrl = '';
+        },
+
+        // --- EVENT HANDLERS (Sama) ---
+        handleFileSelect(event) {
+            this._updateFile(event.target.files[0]);
+            event.target.value = null; 
+        },
+        handleFileDrop(event) {
+            this.isDragOver = false;
+            this._updateFile(event.dataTransfer.files[0]);
+        },
+
+        // --- MAIN ACTION (Tombol Klik) ---
+        async submitConvert() { // Nama fungsi diubah
+            // 1. Cek file
+            if (!this.file) {
+                alertUser("⚠️ Mohon unggah file PDF terlebih dahulu.");
+                return;
+            }
+
+            // 2. Reset & Tampilkan Overlay (Global dari app.js)
+            this.showResultArea = false;
+            this.statusText = '';
+            this.isDone = false;
+            showLoadingOverlay(); 
+
+            // 3. Siapkan FormData
+            const formData = new FormData();
+            formData.append('file', this.file);
+            // HAPUS: formData.append('level', ...)
+
+            // 4. Kirim request
+            try {
+                const response = await fetch(this.uploadUrl, {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorMessage = await response.text();
+                    throw new Error(errorMessage.trim() || "Terjadi kesalahan yang tidak diketahui.");
+                }
+
+                const blob = await response.blob(); // Ini akan menjadi file .docx
+                
+                if (this.downloadUrl) URL.revokeObjectURL(this.downloadUrl);
+                
+                this.downloadUrl = URL.createObjectURL(blob);
+                this.downloadFileName = this._getDownloadName(response); // Panggil helper nama file
+                
+                this.successMessage = "✅ Berhasil! File DOCX Anda siap diunduh."; // Teks diubah
+                this.showResultArea = true;
+                
+                this.statusText = `Selesai memproses: ${this.file.name}`;
+                this.isDone = true;
+
+            } catch (err) {
+                alertUser(`❌ Terjadi kesalahan: ${err.message}`); // Global dari app.js
+                this.statusText = 'Gagal memproses file.';
+                this.isDone = false;
+                this.showResultArea = false; 
+            } finally {
+                hideLoadingOverlay(); // Global dari app.js
+            }
+        }
+    }));
+});

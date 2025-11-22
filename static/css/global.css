@@ -1,0 +1,219 @@
+/* static/css/global.css */
+
+/* --- Root Font --- */
+:root {
+    font-family: 'Inter', 'Poppins', sans-serif;
+    --tw-gradient-from: #f3f4f6; /* from-gray-100 */
+    --tw-gradient-to: #eff6ff;   /* to-blue-50 */
+}
+
+/* beri efek pada tool-highlight */
+.feature-card.tool-highlight {
+  border-color: #f59e0b; /* amber-500 */
+  box-shadow: 0 12px 30px rgba(245,158,11,0.12);
+  transform: translateY(-4px);
+  transition: transform 200ms ease;
+}
+.feature-card.tool-highlight:hover { transform: translateY(-6px); }
+
+
+/* --- Page Wrapper --- */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Doodle Background (dari base.html) --- */
+.doodle-wrap{
+    position:fixed;
+    inset:0;
+    z-index: -1;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 15% 15%, rgba(100,180,255,0.1) 0, transparent 30%),
+        radial-gradient(circle at 85% 85%, rgba(150,255,200,0.08) 0, transparent 30%),
+        linear-gradient(to bottom right, var(--tw-gradient-from), var(--tw-gradient-to));
+}
+.doodle-wrap svg{
+    width:100%;
+    height:100%;
+    display:block;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+/* --- Global Loading Overlay (dari qrcode.html) --- */
+#loadingOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+#loadingOverlay.show {
+    opacity: 0.9;
+    pointer-events: auto;
+}
+
+/* --- Global Custom Alert (dari qrcode.js) --- */
+#customAlert {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background-color: #ef4444; /* bg-red-500 */
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+    z-index: 9998;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Style untuk dropzone saat file diseret di atasnya */
+.drag-active {
+  border-color: #2563eb !important; /* theme('colors.blue.600') */
+  background-color: #eff6ff !important; /* theme('colors.blue.50') */
+}
+
+/* --- Global SortableJS Style --- */
+/* Style untuk 'placeholder' saat item di-drag */
+.sortable-ghost {
+  opacity: 0.5;
+  background: #e0f2fe; /* bg-blue-50 */
+}
+
+/* Memastikan teks hasil OCR bisa wrap (pindah baris) */
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* --- Style input file, label, dan slider (dipindah dari HTML) --- */
+.label {
+    display: block;
+    font-weight: 600; /* font-semibold */
+    color: #4b5563; /* text-gray-700 */
+    margin-bottom: 0.5rem; /* mb-2 */
+}
+.footer-note {
+    margin-top: 0.5rem;
+    font-size: 0.875rem; /* text-sm */
+    color: #6b7280; /* text-gray-500 */
+}
+
+/* --- Range Slider Styling --- */
+.range-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.range-row input[type="range"] {
+    flex-grow: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #e5e7eb; /* bg-gray-200 */
+    border-radius: 5px;
+    height: 8px;
+    cursor: pointer;
+}
+.range-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #2563eb; /* bg-blue-600 */
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* --- Modal Body Styling --- */
+#modalBody img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+#modalBody {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+#customAlert.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Gaya khusus untuk halaman teks/artikel yang lebih lebar dan nyaman dibaca */
+.article-wrap {
+  max-width: 920px; /* lebih lebar untuk teks */
+  margin: 0 auto;
+  padding: 32px;
+}
+.article-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.06);
+  padding: 36px 40px;
+}
+.article-meta {
+  color: #6b7280; /* gray-500 */
+  font-size: 0.95rem;
+}
+.article-title {
+  font-size: 2.25rem;
+  line-height: 1.05;
+  font-weight: 700;
+  color: #0f172a; /* slate-900 */
+}
+.lead {
+  font-size: 1.05rem;
+  color: #374151; /* gray-700 */
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+.prose p { line-height: 1.75; margin: 1rem 0; color: #374151; }
+.prose h2 { margin-top: 1.25rem; margin-bottom: 0.5rem; font-weight: 600; }
+.prose ul, .prose ol { margin-left: 1.1rem; }
+.article-card a { color: #2563eb; text-decoration: underline; }
+
+/* Responsif */
+@media (max-width: 640px) {
+  .article-wrap { padding: 18px; }
+  .article-card { padding: 20px; border-radius: 12px; }
+  .article-title { font-size: 1.5rem; }
+}
+
+/* CSS Khusus Index */
+.feature-card {
+transition: transform 0.2s, box-shadow 0.2s;
+}
+.feature-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Gunakan gaya artikel sama seperti about, tapi sedikit ringkas */
+.contact-wrap { max-width: 820px; margin: 0 auto; padding: 28px; }
+.contact-card { background:#fff; border-radius:14px; padding:28px; box-shadow:0 8px 24px rgba(2,6,23,0.06); }
+.contact-row { display:flex; gap:16px; align-items:flex-start; }
+.contact-item { flex:1; }
+.contact-action { margin-top:18px; }
+@media (max-width:640px){ .contact-row{flex-direction:column} }
+
+/* Gunakan layout artikel yang sama, dengan typographic tweaks untuk daftar panjang */
+.privacy-wrap { max-width: 920px; margin:0 auto; padding:32px; }
+.privacy-card { background:#fff; border-radius:16px; padding:36px; box-shadow:0 8px 30px rgba(2,6,23,0.06); }
+.privacy-prose p { line-height:1.7; margin:0.9rem 0; }
+.privacy-prose ol { padding-left:1.1rem; }
+.privacy-meta { color:#6b7280; margin-bottom:10px }
+@media (max-width:640px){ .privacy-wrap{padding:18px} }

@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}Web Toolkit{% endblock %}
+
+{% block page_styles %}
+
+{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-4xl text-center p-4" style="position: relative; z-index: 10;">
+
+    <header class="mb-10">
+        <h1 class="text-5xl font-extrabold text-gray-800 mb-4">Web Toolkit</h1>
+        <p class="text-xl text-gray-600 mb-4">Solusi cepat dan efisien untuk kebutuhan kerja Anda.</p>
+        <!-- Search Bar -->
+        <input id="toolSearch" type="text" placeholder="Cari alat… (contoh: pdf, gambar, ocr)"
+            class="w-full max-w-md mx-auto px-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 bg-white"
+            oninput="filterTools()">
+    </header>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <a href="{{ url_for('qr_generator') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                ⛶ </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Buat Kode QR</h2>
+            <p class="text-gray-500 text-sm">Konversi teks atau URL menjadi kode QR instan.</p>
+        </a>
+
+        <a href="{{ url_for('ocr_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-green-600 mb-4">
+                📃 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Ekstrak Teks OCR</h2>
+            <p class="text-gray-500 text-sm">Ambil teks dari gambar atau dokumen PDF.</p>
+        </a>
+
+        <a href="{{ url_for('combine_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-red-600 mb-4">
+                🔗 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Gabung File PDF</h2>
+            <p class="text-gray-500 text-sm">Satukan beberapa file PDF menjadi satu dokumen.</p>
+        </a>
+
+        <a href="{{ url_for('compress_image') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                🗜️ </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Kompres Gambar</h2>
+            <p class="text-gray-500 text-sm">Perkecil ukuran gambar dengan sedikit mengorbankan kualitas.</p>
+        </a>
+
+        <a href="{{ url_for('imagetopdf_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                📒 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Gambar ke PDF</h2>
+            <p class="text-gray-500 text-sm">Gabungkan gambar menjadi satu dokumen PDF.</p>
+        </a>
+
+        <a href="{{ url_for('sharpen_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                📸 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Pertajam Gambar</h2>
+            <p class="text-gray-500 text-sm">Buat gambar buram menjadi lebih tajam.</p>
+        </a>
+
+        <a href="{{ url_for('upscale_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                「 」 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Perbesar Gambar</h2>
+            <p class="text-gray-500 text-sm">Tingkatkan resolusi gambar 2x, 3x, 4x.</p>
+        </a>
+
+        <a href="{{ url_for('downscale_image') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                📐 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Perkecil Gambar</h2>
+            <p class="text-gray-500 text-sm">Turunkan resolusi gambar berdasarkan persentase.</p>
+        </a>
+
+        <a href="{{ url_for('compresspdf_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                🗜 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Kompres PDF</h2>
+            <p class="text-gray-500 text-sm">Perkecil ukuran PDF dengan sedikit mengorbankan kualitas.</p>
+        </a>
+
+        <a href="{{ url_for('pdftoimage_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                🎴 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">PDF ke Gambar</h2>
+            <p class="text-gray-500 text-sm">Ekstrak seluruh halaman file PDF menjadi gambar.</p>
+        </a>
+
+        <a href="{{ url_for('pdftodocx_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                📝 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">PDF ke Word</h2>
+            <p class="text-gray-500 text-sm">Konversi PDF ke Word (.docx) yang dapat diedit.</p>
+        </a>
+
+        <a href="{{ url_for('pdf_to_xlsx_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                📊 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">PDF ke Excel</h2>
+            <p class="text-gray-500 text-sm">Konversi PDF ke Excel (.xlsx) yang dapat diedit.</p>
+        </a>
+
+        <a href="{{ url_for('docxtopdf_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                📄 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Word ke PDF</h2>
+            <p class="text-gray-500 text-sm">Konversi Word (.docx / .doc) ke PDF.</p>
+        </a>
+
+        <a href="{{ url_for('xlsxtopdf_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                📑 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Excel ke PDF</h2>
+            <p class="text-gray-500 text-sm">Konversi Excel (.xlsx / .xls / .ods) ke PDF.</p>
+        </a>
+
+        <a href="{{ url_for('password_generator') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                🔐 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Buat Kata Sandi</h2>
+            <p class="text-gray-500 text-sm">Buat kata sandi kuat. Pakai password manager.</p>
+        </a>
+
+        <a href="{{ url_for('summ_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                ✍️ </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Rangkum Tulisan</h2>
+            <p class="text-gray-500 text-sm">Rangkum tulisan / dokumen menjadi beberapa kalimat.</p>
+        </a>
+
+        <a href="{{ url_for('convert_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                🏞️ </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Konversi Gambar</h2>
+            <p class="text-gray-500 text-sm">Konversi gambar ke format yang anda butuhkan.</p>
+        </a>
+
+        <a href="{{ url_for('para_bp.form') }}"
+            class="feature-card block bg-white rounded-xl shadow-lg border border-gray-200 p-6 flex flex-col items-center justify-center hover:border-blue-500">
+            <div class="text-6xl text-blue-600 mb-4">
+                🔄 </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Tulis Ulang</h2>
+            <p class="text-gray-500 text-sm">Tulis ulang artikel dengan makna yang sama.</p>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/index.js') }}" defer></script>
+{% endblock %}

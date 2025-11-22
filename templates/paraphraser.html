@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Tulis Ulang | Web Toolkit{% endblock %}
+{% block description %}Tulis Ulang — Tulis ulang artikel dengan makna yang sama.{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-6 sm:p-10" style="position: relative; z-index: 10;">
+  <div class="text-center mb-8">
+    <h1 class="text-4xl font-bold text-blue-700 mb-2">🔄 Tulis Ulang</h1>
+    <div class="bg-gray-100 text-blue-500 border border-yellow-300 rounded-lg p-3 mt-4 text-sm">
+      💡 <strong>Info</strong>: Paraphrase lokal. Teks tidak dikirim ke layanan pihak ketiga.
+    </div>
+  </div>
+
+  <div class="space-y-4">
+    <form id="paraForm" data-process-url="{{ url_for('para_bp.process') }}">
+
+      <textarea name="text" id="textInput" rows="8"
+        class="w-full p-3 border border-gray-300 rounded-lg"
+        placeholder="Masukkan teks bahasa Indonesia.
+Pisahkan setiap paragraf dengan satu baris kosong diantara paragraf."></textarea>
+
+      <div class="mt-3">
+        <label class="font-semibold">Mode Tulis Ulang:</label>
+        <select name="mode" id="modeSelect"
+          class="w-full mt-2 p-3 border border-gray-300 rounded-lg">
+          <option value="natural" selected>Natural</option>
+          <option value="longer">Lebih Panjang</option>
+          <option value="same_length">Sama Panjang</option>
+        </select>
+      </div>
+
+      <div class="flex items-center justify-between mt-4">
+        <div class="text-sm text-gray-500">Maksimal 10.000 kata</div>
+        <button type="submit"
+          class="py-2 px-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700">
+          🔄 Tulis Ulang
+        </button>
+      </div>
+    </form>
+
+
+    <div id="resultArea" class="hidden mt-6">
+      <h2 class="text-lg font-semibold mb-2">Hasil Parafrase:</h2>
+      <pre id="paraResult" class="bg-gray-100 p-4 rounded-lg text-sm whitespace-pre-wrap"></pre>
+
+      <div class="mt-3 flex gap-3">
+        <a id="downloadLink" class="hidden py-2 px-4 bg-green-600 text-white rounded-lg">⬇️ Unduh</a>
+        <button id="copyBtn" class="py-2 px-4 bg-gray-200 rounded-lg">📋 Salin</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/paraphraser.js') }}" defer></script>
+{% endblock %}

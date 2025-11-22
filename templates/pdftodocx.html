@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}PDF ke Word | Web Toolkit{% endblock %}
+
+{% block page_styles %}
+{% endblock %}
+
+{% block content %}
+<div x-data="pdfToDocxComponent('{{ url_for('pdftodocx_bp.process') }}')"
+    class="w-full max-w-xl bg-white rounded-2xl shadow-xl p-6 sm:p-10" style="position: relative; z-index: 10">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-blue-700 mb-2">📝 PDF ke Word</h1>
+        <div class="bg-gray-100 text-blue-500 border border-yellow-300 rounded-lg p-3 mt-4 text-sm">
+            ⚠️ <strong>PERINGATAN</strong>: Hasil konfersi PDF ke file Word bisa saja tidak sempurna. Maks. 16 MB.
+        </div>
+    </div>
+
+    <div class="space-y-6">
+        <div>
+            <label class="block font-semibold text-gray-700 mb-2">Unggah File Anda:</label>
+
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500 cursor-pointer transition hover:border-blue-500 mb-2"
+                :class="{ 'drag-active': isDragOver }" @click="$refs.fileInput.click()"
+                @dragover.prevent="isDragOver = true" @dragleave.prevent="isDragOver = false"
+                @drop.prevent="handleFileDrop($event)">
+                Seret & lepas file PDF di sini atau klik untuk memilih
+            </div>
+
+            <input type="file" x-ref="fileInput" accept="application/pdf" class="hidden"
+                @change="handleFileSelect($event)" />
+
+            <p x-text="statusText" class="text-sm text-gray-500 mt-2" :class="{ 'text-green-600': isDone }"></p>
+
+            <button type="button" @click="submitConvert()"
+                class="w-full py-3 mt-6 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 hover:shadow-lg hover:-translate-y-0.5">
+                📝 Konversi ke Word
+            </button>
+        </div>
+    </div>
+
+    <div x-show="showResultArea" class="mt-6" x-transition>
+        <p x-text="successMessage" class="text-green-600 font-semibold mb-3"></p>
+        <a x-show="downloadUrl" :href="downloadUrl" :download="downloadFileName"
+            class="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-200 block text-center"
+            x-transition>
+            ⬇️ Unduh File Word
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pdftodocx.js') }}" defer></script>
+{% endblock %}

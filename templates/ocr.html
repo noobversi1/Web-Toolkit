@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Ekstrak Teks OCR | Web Toolkit{% endblock %}
+
+{% block page_styles %}
+{% endblock %}
+
+{% block content %}
+    <div 
+        x-data="ocrComponent('{{ url_for('ocr_bp.convert_file') }}')"
+        class="w-full max-w-xl bg-white rounded-2xl shadow-xl p-6 sm:p-10" 
+        style="position: relative; z-index: 10;"
+    >
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-700 mb-2">📃 Ekstrak Teks OCR</h1>
+            <div class="bg-gray-100 text-blue-500 border border-yellow-300 rounded-lg p-3 mt-4 text-sm">
+                ⚠️ <strong>Penting</strong>: Hasil konversi hanya berupa teks. Format asli tidak dipertahankan. Maks. 16 MB.
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div>
+                <label class="block font-semibold text-gray-700 mb-2">Unggah File Anda:</label>
+
+                <div
+                    class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500 cursor-pointer transition hover:border-blue-500 mb-2"
+                    :class="{ 'drag-active': isDragOver }"
+                    @click="$refs.fileInput.click()"
+                    @dragover.prevent="isDragOver = true"
+                    @dragleave.prevent="isDragOver = false"
+                    @drop.prevent="handleFileDrop($event)"
+                >
+                    Seret & lepas file di sini atau klik untuk memilih
+                </div>
+
+                <input
+                    type="file"
+                    x-ref="fileInput"
+                    accept="image/*,application/pdf"
+                    class="hidden"
+                    @change="handleFileSelect($event)"
+                />
+
+                <p x-text="statusText" class="text-sm text-gray-500 mt-2" :class="{ 'text-green-600': isDone }"></p>
+
+                <button
+                    type="button"
+                    @click="submitOCR()"
+                    class="w-full py-3 mt-6 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                >
+                    📃 Ekstrak Teks
+                </button>
+            </div>
+        </div>
+
+        <div x-show="showResultArea" class="mt-8" x-transition>
+            <h2 class="text-lg font-semibold text-gray-700 mb-2">📄 Hasil Ekstrak:</h2>
+            <div class="bg-gray-100 border border-gray-300 rounded-lg p-4 max-h-80 overflow-y-auto">
+                <pre x-text="resultText" class="text-sm text-gray-800"></pre>
+            </div>
+
+            <a 
+                x-show="downloadUrl"
+                :href="downloadUrl"
+                :download="downloadFileName"
+                class="mt-4 inline-block w-full text-center bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+                x-transition
+            >
+                ⬇️ Unduh Hasil Ekstrak (.txt)
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/ocr.js') }}"></script>
+{% endblock %}

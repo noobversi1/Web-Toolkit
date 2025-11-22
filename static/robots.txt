@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://toolkit.jhoniarifintarigan.id/sitemap.xml
+Disallow: /image-to-pdf/convert
+Disallow: /ocr/convert
+Disallow: /gabung-pdf/combine

@@ -1,0 +1,308 @@
+<nav class="bg-white shadow-md relative z-20" x-data="{ open: false }">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-14">
+      <div class="flex items-center">
+        <!-- Brand -->
+        <a href="{{ url_for('index') }}" class="flex items-center text-xl font-bold text-blue-600 mr-6">
+          🛠️ Toolkit
+        </a>
+
+        <!-- Desktop menus: gunakan divide-x untuk garis & space-x untuk jarak -->
+        <div class="hidden sm:ml-6 sm:flex sm:items-center sm:divide-x sm:divide-gray-200 sm:space-x-0">
+
+          <!-- Alat Gambar -->
+          <div class="relative sm:px-4" x-data="{ open: false }">
+            <button @click="open = !open"
+              class="inline-flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none">
+              <span>🖼️</span>
+              <span>Alat Gambar</span>
+            </button>
+
+            <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-150"
+              x-transition:enter-start="opacity-0 transform scale-95"
+              x-transition:enter-end="opacity-100 transform scale-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100 transform scale-100"
+              x-transition:leave-end="opacity-0 transform scale-95"
+              class="absolute left-0 mt-2 min-w-max min-w-[14rem] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-40"
+              style="display: none;">
+              <div class="py-1">
+                <a href="{{ url_for('imagetopdf_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  📒 Gambar ke PDF
+                </a>
+
+                <a href="{{ url_for('compress_image') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  🗜️ Kompres Gambar
+                </a>
+
+                <a href="{{ url_for('convert_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  🏞️ Konversi Gambar
+                </a>
+
+                <a href="{{ url_for('upscale_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  「 」 Perbesar Gambar
+                </a>
+
+                <a href="{{ url_for('downscale_image') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  📐 Perkecil Gambar
+                </a>
+
+                <a href="{{ url_for('sharpen_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  📸 Pertajam Gambar
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alat Office -->
+          <div class="relative sm:px-4" x-data="{ open: false }">
+            <button @click="open = !open"
+              class="inline-flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none">
+              <span>📋</span>
+              <span>Alat Office</span>
+            </button>
+
+            <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-150"
+              x-transition:enter-start="opacity-0 transform scale-95"
+              x-transition:enter-end="opacity-100 transform scale-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100 transform scale-100"
+              x-transition:leave-end="opacity-0 transform scale-95"
+              class="absolute left-0 mt-2 min-w-max min-w-[14rem] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-40"
+              style="display: none;">
+              <div class="py-1">
+                <a href="{{ url_for('xlsxtopdf_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  📑 Excel ke PDF
+                </a>
+
+                <a href="{{ url_for('docxtopdf_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  📄 Word ke PDF
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alat PDF -->
+          <div class="relative sm:px-4" x-data="{ open: false }">
+            <button @click="open = !open"
+              class="inline-flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none">
+              <span>📕</span>
+              <span>Alat PDF</span>
+            </button>
+
+            <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-150"
+              x-transition:enter-start="opacity-0 transform scale-95"
+              x-transition:enter-end="opacity-100 transform scale-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100 transform scale-100"
+              x-transition:leave-end="opacity-0 transform scale-95"
+              class="absolute left-0 mt-2 min-w-max min-w-[14rem] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-40"
+              style="display: none;">
+              <div class="py-1">
+                <a href="{{ url_for('combine_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  📒 Gabung File PDF
+                </a>
+
+                <a href="{{ url_for('compresspdf_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  🗜 Kompres PDF
+                </a>
+
+                <a href="{{ url_for('pdf_to_xlsx_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  📊 PDF ke Excel
+                </a>
+
+                <a href="{{ url_for('pdftoimage_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  🎴 PDF ke Gambar
+                </a>
+
+                <a href="{{ url_for('pdftodocx_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  📝 PDF ke Word
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lainnya -->
+          <div class="relative sm:px-4" x-data="{ open: false }">
+            <button @click="open = !open"
+              class="inline-flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none">
+              <span>🎲</span>
+              <span>Lainnya</span>
+            </button>
+
+            <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-150"
+              x-transition:enter-start="opacity-0 transform scale-95"
+              x-transition:enter-end="opacity-100 transform scale-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100 transform scale-100"
+              x-transition:leave-end="opacity-0 transform scale-95"
+              class="absolute left-0 mt-2 min-w-max min-w-[14rem] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-40"
+              style="display: none;">
+              <div class="py-1">
+                <a href="{{ url_for('password_generator') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  🔐 Buat Kata Sandi
+                </a>
+
+                <a href="{{ url_for('qr_generator') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  ⛶ Buat Kode QR
+                </a>
+
+                <a href="{{ url_for('ocr_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  📃 Ekstrak Teks OCR
+                </a>
+
+                <a href="{{ url_for('summ_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  ✍️ Rangkum Tulisan
+                </a>
+
+                <a href="{{ url_for('para_bp.form') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  🔄 Tulis Ulang
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lainnya -->
+          <div class="relative sm:px-4" x-data="{ open: false }">
+            <button @click="open = !open"
+              class="inline-flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none">
+              <span>ⓘ</span>
+              <span>Bantuan</span>
+            </button>
+
+            <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-150"
+              x-transition:enter-start="opacity-0 transform scale-95"
+              x-transition:enter-end="opacity-100 transform scale-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100 transform scale-100"
+              x-transition:leave-end="opacity-0 transform scale-95"
+              class="absolute left-0 mt-2 min-w-max min-w-[14rem] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-40"
+              style="display: none;">
+              <div class="py-1">
+                <a href="{{ url_for('about') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  ❓ Tentang
+                </a>
+
+                <a href="{{ url_for('contact') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  📩 Kontak
+                </a>
+
+                <a href="{{ url_for('privacy') }}"
+                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 whitespace-nowrap">
+                  🛡️ Kebijakan Privasi
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="flex items-center sm:hidden">
+        <button type="button" @click="open = !open"
+          class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+          aria-controls="mobile-menu" aria-expanded="false">
+          <svg x-show="!open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg x-show="open" style="display: none;" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="sm:hidden" id="mobile-menu" x-show="open" style="display: none;"
+    x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1"
+    x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-1">
+
+    <div class="pt-2 pb-3 space-y-1 border-t border-gray-100 px-2 divide-y divide-gray-100">
+      <div class="border-b border-gray-100 py-2">
+        <div class="text-sm font-semibold text-gray-700 mb-1">Alat Gambar</div>
+        <a href="{{ url_for('imagetopdf_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Gambar ke PDF</a>
+        <a href="{{ url_for('compress_image') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Kompres Gambar</a>
+        <a href="{{ url_for('convert_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Konversi Gambar</a>
+        <a href="{{ url_for('upscale_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Perbesar Gambar</a>
+        <a href="{{ url_for('downscale_image') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Perkecil Gambar</a>
+        <a href="{{ url_for('sharpen_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Pertajam Gambar</a>
+      </div>
+
+      <div class="border-b border-gray-100 py-2">
+        <div class="text-sm font-semibold text-gray-700 mb-1">Alat Office</div>
+        <a href="{{ url_for('xlsxtopdf_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Excel ke PDF</a>
+        <a href="{{ url_for('docxtopdf_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Word ke PDF</a>
+      </div>
+
+      <div class="border-b border-gray-100 py-2">
+        <div class="text-sm font-semibold text-gray-700 mb-1">Alat PDF</div>
+        <a href="{{ url_for('combine_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Gabung File PDF</a>
+        <a href="{{ url_for('compresspdf_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Kompres PDF</a>
+        <a href="{{ url_for('pdf_to_xlsx_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">PDF ke Excel</a>
+        <a href="{{ url_for('pdftoimage_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">PDF ke Gambar</a>
+        <a href="{{ url_for('pdftodocx_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">PDF ke Word</a>
+      </div>
+
+      <div class="py-2">
+        <div class="text-sm font-semibold text-gray-700 mb-1">Lainnya</div>
+        <a href="{{ url_for('password_generator') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Buat Kata Sandi</a>
+        <a href="{{ url_for('qr_generator') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Buat Kode QR</a>
+        <a href="{{ url_for('ocr_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Ekstrak Teks OCR</a>
+        <a href="{{ url_for('summ_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Rangkum Tulisan</a>
+        <a href="{{ url_for('para_bp.form') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Tulis Ulang</a>
+      </div>
+
+      <div class="py-2">
+        <div class="text-sm font-semibold text-gray-700 mb-1">Bantuan</div>
+        <a href="{{ url_for('about') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Tentang</a>
+        <a href="{{ url_for('contact') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Kontak</a>
+        <a href="{{ url_for('privacy') }}"
+          class="block px-3 py-2 text-sm text-gray-600 hover:bg-blue-50 rounded">Kebijakan Privasi</a>
+      </div>
+    </div>
+  </div>
+</nav>
